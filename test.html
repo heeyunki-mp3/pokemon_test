@@ -1,0 +1,301 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Internet Quiz</title>
+		<style>
+			body
+			{
+				background-image: url("background.jpg");
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				background-size: cover;
+				font-family: papyrus;
+			}
+			img.bullet
+			{
+				display:none;
+				width:4%;
+				position:relative;
+				top:25px;
+			}
+			h2
+			{
+				background-color: rgba(255,255,255,.7);
+				padding: 1%;
+				display:inline-block;
+			}
+			h1
+			{
+				font-size:40pt;
+				display:inline-block;
+				padding:0% 2% 0% 0%;
+				border-right-style: solid;
+			}
+			.question
+			{
+				border-style: solid;
+				padding:3% 7% 4% 7%;
+				margin: 3% 7% 0% 7%;
+				background-color: rgba(255,255,255,.7);
+			}
+			#title
+			{
+				display: inline-block;
+				border-style:solid;
+				border-color:white;
+				color:white;
+				background-color: rgba(0,0,0,.7);
+				padding:2%;
+			}
+			#ball
+			{
+				width:10%;
+				position:relative;
+				top: 50px;
+			}
+			button
+			{
+				font-family: papyrus;
+				font-size:15pt;
+				padding:1%;
+				margin:1%;
+				left:40px;
+				border-style: outset;
+				background-color: white;
+				border-color: rgb(229,204,255);s
+				border-width:thick;
+			}
+			button:hover
+			{
+				background-image:url("hovercolor.jpg");
+			}
+			a
+			{
+				font-family: papyrus;
+				font-size:15pt;
+				padding:1%;
+				left:40px;
+				border-style:outset;
+				border-width:7px;
+				text-decoration: none;
+				background-color:white;
+				color: purple;
+			}
+			#message
+			{
+				padding:2%;
+				margin: 2%;
+				font-size: 20pt;
+				
+				color: red;
+			}
+			#submitButton
+			{
+				background-color: rgba(204,229,255,.9);
+			}
+		</style>
+		<script src = "utilities.js"></script>
+		<script>
+			function initialize()
+			{
+				answers = ['?','?','?','?','?','?','?','?','?','?']
+				finalCount = [['fire',0],['water',0],['grass',0],['ground',0],['rock',0],['steel',0],['ice',0],['electric',0],['dragon',0],['ghost',0],['psychic',0],['normal',0],['fighting',0],['poison',0],['bug',0],['flying',0],['dark',0],['fairy',0]]
+				numbersOnly = [];
+				result = [];
+				resultPage = document.getElementById("resultP");
+				resultPage.style.visibility = "hidden";
+			}
+			function recordData(question, type)
+			{
+				var index = question-1;
+				var value = type;
+				answers.splice(index,1,value);
+				
+				console.log(answers);
+							
+			}
+			function submit()
+			{
+				messageArea = document.getElementById("message");
+				messageArea.innerHTML = "";
+				for (var i in answers)
+				{
+					var answerarray = answers[i];
+					
+					if (answerarray == '?')
+					{
+						messageArea.innerHTML = "You didn't answer all quetions. Please answer"
+						return;
+					}
+					
+				}
+				calculateResult();
+			}
+			
+			function calculateResult()
+			{
+				finalResult = ""
+				for (var i in answers)
+				{
+					var answerarray = answers[i];
+					
+					for (var j in answerarray)
+					{
+						var individualAnswer = answerarray[j];
+						
+						for (var o in finalCount)
+						{
+							var countArray = finalCount[o];
+							if (countArray[0] == individualAnswer)
+							{
+								countArray[1] ++
+							}
+						}
+					}
+				}
+				for (var i in finalCount)
+				{
+					numbersOnly.push(finalCount[i][1]);
+				}
+				best = Math.max(...numbersOnly)
+					
+				for (var i in finalCount)
+				{
+					if (finalCount[i][1] == best)
+					{
+						result.push(finalCount[i][0])
+					}
+				}
+				if (result.length >1)
+				{
+					targetIndex = getRandomInteger(0,result.length-1)
+					finalResult = result[targetIndex];
+				}
+				if (result.length ==1)
+				{
+					finalResult = result[0];
+				}
+					
+				console.log(finalCount);
+				console.log(numbersOnly);
+				console.log(best)
+				console.log(result);
+				console.log(finalResult);
+				targetLink = finalResult + ".html"
+				console.log(targetLink)
+				resultPage.href = targetLink
+				resultPage.style.visibility= "visible";
+			}
+			
+			function dealWithClicking(cl, iD)
+			{
+				allBullets = document.getElementsByClassName(cl);
+				for (i=0; i<allBullets.length; i++)
+				{
+					image = allBullets[i]
+					image.style.display = "none";
+				}
+				targetImage = document.getElementById(iD)
+				//console.log(targetImage)
+				targetImage.style.display = "inline";
+				
+			}
+		</script>
+	</head>
+	
+	<body onload = "initialize();">
+		<img id = "ball" src = "pokemonball.png">
+		<h1 id = "title"><b>What is your type if you were a <i>pokemon?</i></b></h1>
+		<div class = "question">
+			<h1>1</h1>
+			<h2>When you are mad at someone, what would you do?</h2> <br />
+			<button onclick = "dealWithClicking('bullet1','11'); recordData(1,['fire', 'fighting']);" class = "1">Punch him in the face</button><img class="bullet bullet1" id = '11' src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet1','12'); recordData(1,['grass', 'fairy']);" class = "1">Try to have a talk with him</button><img class="bullet bullet1" id = '12' src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet1','13'); recordData(1, ['normal', 'ice' ]);" class = "1">Ignore him</button><img class="bullet bullet1" id = '13' src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet1','14'); recordData(1, ['water', 'flying']);" class = "1">Try to calm yourself by not thinking about it</button><img class="bullet bullet1" id = '14' src = "pokemonball.png"><br />
+		</div>
+		
+		<div class = "question">
+			<h1>2</h1>
+			<h2>You found five dollor bill on the floor. What would you do?</h2><br />
+			<button onclick = "dealWithClicking('bullet2','21'); recordData(2,['dark','poison']);" class = '2'>Founder is the keeper! Just take it</button><img class="bullet bullet2" id = '21' src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet2','22'); recordData(2,['rock','ground']);" class = '2'>I am too lazy to bend down. Just keep walking.</button><img class="bullet bullet2" id = '22' src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet2','23'); recordData(2,['psychic','ghost']);" class = '2'>What if it is enchanted money? It can be dangerous. Keep away from that</button><img class="bullet bullet2" id = '23' src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet2','24'); recordData(2,['dragon','steel']);" class = '2'>I do not care.</button><img class="bullet bullet2" id = '24' src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet2','25'); recordData(2,['bug','electric']);" class = '2'>Take it as fast as you can before anyone sees it</button><img class="bullet bullet2" id = '25' src = "pokemonball.png"><br />
+		</div>
+		
+		<div class = "question">
+			<h1>3</h1>
+			<h2>You saw someone bullying another person. What would you do?</h2> <br />
+			<button onclick = "dealWithClicking('bullet3','31'); recordData(3,['normal','electric']);" class = '3'>That bully seems too scary. It is not good idea to interupt him. Just run away</button><img class="bullet bullet3" id = '31'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet3','32'); recordData(3,['dragon','fairy']);" class = '3'>Bullying is a bad thing! Go tell a teacher</button><img class="bullet bullet3" id = '32'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet3','33'); recordData(3,['fighting','fire']);" class = '3'>Hit that bully in his face and knock him down!</button><img class="bullet bullet3" id = '33'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet3','34'); recordData(3,['dark','ghost']);" class = '3'>Oh, they are just joking around. Not my business</button><img class="bullet bullet3" id = '34'src = "pokemonball.png"><br />
+		</div>
+
+		<div class = "question">
+			<h1>4</h1>
+			<h2>You woke up late today. You are late to school anyways even if you run out of your home now. What would you do?</h2><br />
+			<button onclick = "dealWithClicking('bullet4','41'); recordData(4,['poison','dark']);" class = '4'>You know what? I am kind fo sick. Missing school once wouldn't effect me so much!</button><img class="bullet bullet4" id = '41'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet4','42'); recordData(4,['fairy','flying']);" class = '4'>AHHH! I am late!!! Run as fast as I can to school!!</button><img class="bullet bullet4" id = '42'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet4','43'); recordData(4,['grass','bug']);" class = '4'>I am late anyways. Just take my time to school.</button><img class="bullet bullet4" id = '43'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet4','44'); recordData(4,['psychic','steel']);" class = '4'>Hmm.. What is a good excuse that I can tell my teacher?</button><img class="bullet bullet4" id = '44'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet4','45'); recordData(4,['ice','rock']);" class = '4'>I don't look at the clock</button><img class="bullet bullet4" id = '45'src = "pokemonball.png"><br />
+		</div>
+		
+		<div class = "question">
+			<h1>5</h1>
+			<h2>What is your favorite color?</h2><br />
+			<button onclick = "dealWithClicking('bullet5','51'); recordData(5,['ghost','dark','steel']);" class = '5'>Black</button><img class="bullet bullet5" id = '51'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet5','52'); recordData(5,['fire','fighting','poison']);" class = '5'>Red</button><img class="bullet bullet5" id = '52'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet5','53'); recordData(5,['electric','rock','ground']);" class = '5'>Yellow</button><img class="bullet bullet5" id = '53'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet5','54'); recordData(5,['grass','bug','grass']);" class = '5'>Green</button><img class="bullet bullet5" id = '54'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet5','55'); recordData(5,['ice','water','water']);" class = '5'>Blue</button><img class="bullet bullet5" id = '55'src = "pokemonball.png"><br />
+		</div>
+		<div class = "question">
+			<h1>6</h1>
+			<h2>You heard someone calling you, but there is nothing. What do you think it is?</h2><br />
+			<button onclick = "dealWithClicking('bullet6','61'); recordData(6,['steel','dragon']);" class = '6'>I probably misheard it</button><img class="bullet bullet6" id = '61'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet6','62'); recordData(6,['electric','water']);" class = '6'>Someone's prank</button><img class="bullet bullet6" id = '62'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet6','63'); recordData(6,['psychic','ghost']);" class = '6'>Uh... a ghost?</button><img class="bullet bullet6" id = '63'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet6','64'); recordData(6,['rock','dragon','water']);" class = '6'>I don't care</button><img class="bullet bullet6" id = '64'src = "pokemonball.png"><br />
+		</div>
+		<div class = "question">
+			<h1>7</h1>
+			<h2>What is your favorite season?</h2><br />
+			<button onclick = "dealWithClicking('bullet7','71'); recordData(7,['grass','fairy','bug']);" class = '7'>Spring</button><img class="bullet bullet7" id = '71'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet7','72'); recordData(7,['fire','fighting','water']);" class = '7'>Summer</button><img class="bullet bullet7" id = '72'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet7','73'); recordData(7,['flying','normal','ground']);" class = '7'>Fall</button><img class="bullet bullet7" id = '73'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet7','74'); recordData(7,['ice','ice','dark']);" class = '7'>Winter</button><img class="bullet bullet7" id = '74'src = "pokemonball.png"><br />
+		</div>
+		<div class = "question">
+			<h1>8</h1>
+			<h2>Sun, Moon, or Star</h2><br />
+			<button onclick = "dealWithClicking('bullet8','81'); recordData(8,['fire','electric']);" class = '8'>Sun</button><img class="bullet bullet8" id = '81'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet8','82'); recordData(8,['dark','flying','ghost']);" class = '8'>Moon</button><img class="bullet bullet8" id = '82'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet8','83'); recordData(8,['ice','psychic','fairy']);" class = '8'>Star</button><img class="bullet bullet8" id = '83'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet8','84'); recordData(8,['normal','ground','steel']);" class = '8'>I don't care</button><img class="bullet bullet8" id = '84'src = "pokemonball.png"><br />
+		</div>
+		<div class = "question">
+			<h1>9</h1>
+			<h2>You saw a mistirious light in the sky. What is it?</h2><br />
+			<button onclick = "dealWithClicking('bullet9','91'); recordData(9,['psychic','poison','ghost']);" class = '9'>UFO!!!!</button><img class="bullet bullet9" id = '91'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet9','92'); recordData(9,['dragon','flying','electric']);" class = '9'>That is just a star</button><img class="bullet bullet9" id = '92'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet9','93'); recordData(9,['normal','bug','ground']);" class = '9'>My eyesights are too bad to see that</button><img class="bullet bullet9" id = '93'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet9','94'); recordData(9,['steel','ground','rock']);" class = '9'>I don't care</button><img class="bullet bullet9" id = '94'src = "pokemonball.png"><br />
+		</div>
+		<div class = "question">
+			<h1>10</h1>
+			<h2>Tomorrow, you have an important test. </h2><br />
+			<button onclick = "dealWithClicking('bullet0','01'); recordData(10,['fire','fighting','poison']);" class = '10'>Study all night</button><img class="bullet bullet0" id = '01'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet0','02'); recordData(10,['dark','normal','grass']);" class = '10'>Whatever. I will do fine</button><img class="bullet bullet0" id = '02'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet0','03'); recordData(10,['electric','psychic','bug']);" class = '10'>Oh.. I feel sick</button><img class="bullet bullet0" id = '03'src = "pokemonball.png"><br />
+			<button onclick = "dealWithClicking('bullet0','04'); recordData(10,['flying','dragon','rock']);" class = '10'>I had prepared for all year. I am fine</button><img class="bullet bullet0" id = '04'src = "pokemonball.png"><br />
+		</div>
+		<br />
+		<button onclick = "submit();" id = "submitButton">Tell me my pokemon type!</button>
+		<a id="resultP" href = "???">Click to see the result</a>
+		<span id= "message"></span>
+	</body>
+</html>

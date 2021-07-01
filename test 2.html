@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Internet Quiz</title>
+		<style>
+			body
+			{
+				background-image: url("background.jpg");
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				background-size: cover;
+				font-family: papyrus;
+			}
+			h2
+			{
+				background-color: rgba(255,255,255,.7);
+				padding: 1%;
+				display:inline-block;
+			}
+			h1
+			{
+				font-size:40pt;
+				display:inline-block;
+				padding:0% 2% 0% 0%;
+				border-right-style: solid;
+			}
+			.question
+			{
+				border-style: solid;
+				padding:2%;
+				margin: 2%;
+				background-color: rgba(255,255,255,.7);
+				
+				
+			}
+			#title
+			{
+				display: inline-block;
+				border-style:solid;
+				border-color:white;
+				color:white;
+				background-color: rgba(0,0,0,.7);
+				padding:2%;
+			}
+			#ball
+			{
+				width:10%;
+				position:relative;
+				top: 50px;
+			}
+			button
+			{
+				font-family: papyrus;
+				font-size:15pt;
+				display: block;
+				padding:1%;
+				margin:1%;
+				position:relative;
+				left:40px;
+			}
+			button:hover
+			{
+				background-image:url("hovercolor.jpg");
+			}
+		</style>
+		<script>
+			function initialize()
+			{
+				answers = ['?','?','?','?','?','?','?','?','?','?']
+				finalCount = [['fire',0],['water',0],['grass',0],['ground',0],['rock',0],['steel',0],['ice',0],['electric',0],['dragon',0],['ghost',0],['psychic',0],['normal',0],['fighting',0],['poison',0],['bug',0],['flying',0],['dark',0],['fairy',0]]
+				numbersOnly = [];
+				result = [];
+				
+			}
+			function recordData(question, type)
+			{
+				var index = question-1;
+				var value = type;
+				answers.splice(index,1,value);
+				
+				console.log(answers);			
+			}
+			function submit()
+			{
+				for (var i in answers)
+				{
+					var answerarray = answers[i];
+					
+					if (answerarray == '?')
+					{
+						messageArea = document.getElementById("message");
+						messageArea.innerHTML = "You didn't answer question "+(i+1)+". Please answer it."
+						break
+					}
+				}
+				calculateResult();
+			}
+			
+			function calculateResult()
+			{
+				for (var i in answers)
+				{
+					var answerarray = answers[i];
+					
+					for (var j in answerarray)
+					{
+						var individualAnswer = answerarray[j];
+						
+						for (var o in finalCount)
+						{
+							var countArray = finalCount[o];
+							if (countArray[0] == individualAnswer)
+							{
+								countArray[1] ++
+							}
+						}
+					}
+				}
+				for (var i in finalCount)
+				{
+					numbersOnly.push(finalCount[i][1]);
+				}
+				best = Math.max(...numbersOnly)
+					
+				for (var i in finalCount)
+				{
+					if (finalCount[i][1] == best)
+					{
+						result.push(finalCount[i][0])
+					}
+				}
+				
+				console.log(finalCount);
+				console.log(numbersOnly);
+				console.log(best)
+				console.log(result);
+			}
+		</script>
+	</head>
+	
+	<body onload = "initialize();">
+		<img id = "ball" src = "pokemonball.png">
+		<h1 id = "title"><b>What is your type if you were a <i>pokemon?</i></b></h1>
+		<div class = "question">
+			<h1>1</h1>
+			<h2>When you are mad at someone, what would you do?</h2> <br />
+			<button onclick = "recordData(1,['fire', 'fighting'])" class = "1">Punch him in the face</button>
+			<button onclick = "recordData(1,['grass', 'fairy'])" class = "1">Try to have a talk with him</button>
+			<button onclick = "recordData(1, ['normal', 'ice' ])" class = "1">Ignore him</button>
+			<button onclick = "recordData(1, ['water', 'flying'])" class = "1">Try to calm yourself by not thinking about it</button>
+		</div>
+		
+		<div class = "question">
+			<h1>2</h1>
+			<h2>You found five dollor bill on the floor. What would you do?</h2> <br />
+			<button onclick = "recordData(2,['dark','poison'])" class = '2'>Founder is the keeper! Just take it</button>
+			<button onclick = "recordData(2,['rock','ground'])" class = '2'>I am too lazy to bend down. Just keep walking.</button>
+			<button onclick = "recordData(2,['psychic','ghost'])" class = '2'>What if it is enchanted money? It can be dangerous. Keep away from that</button>
+			<button onclick = "recordData(2,['dragon','steel'])" class = '2'>I do not care.</button>
+			<button onclick = "recordData(2,['bug','electric'])" class = '2'>Take it as fast as you can before anyone sees it</button>
+		</div>
+		
+		<div class = "question">
+			<h1>3</h1>
+			<h2>You saw someone bullying another person. What would you do?</h2> <br />
+			<button onclick = "recordData(3,['normal','electric'])" class = '3'>That bully seems too scary. It is not good idea to interupt him. Just run away</button>
+			<button onclick = "recordData(3,['dragon','fairy'])" class = '3'>Bullying is a bad thing! Go tell a teacher</button>
+			<button onclick = "recordData(3,['fighting','fire'])" class = '3'>Hit that bully in his face and knock him down!</button>
+			<button onclick = "recordData(3,['dark','ghost'])" class = '3'>Oh, they are just joking around. Not my business</button>
+		</div>
+
+		<div class = "question">
+			<h1>4</h1>
+			<h2>You woke up late today. You are late to school anyways even if you run out of your home now. What would you do?</h2><br />
+			<button onclick = "recordData(4,['poison','dark'])" class = '4'>You know what? I am kind fo sick. Missing school once wouldn't effect me so much!</button>
+			<button onclick = "recordData(4,['fairy','flying'])" class = '4'>AHHH! I am late!!! Run as fast as I can to school!!</button>
+			<button onclick = "recordData(4,['grass','bug'])" class = '4'>I am late anyways. Just take my time to school.</button>
+			<button onclick = "recordData(4,['psychic','steel'])" class = '4'>Hmm.. What is a good excuse that I can tell my teacher?</button>
+			<button onclick = "recordData(4,['ice','normal'])" class = '4'>I don't look at the clock</button>
+		</div>
+		
+		<div class = "question">
+			<h1>5</h1>
+			<h2>What is your favorite color?</h2><br />
+			<button onclick = "recordData(5,['ghost','dark'])" class = '5'>Black</button>
+			<button onclick = "recordData(5,['fire','fighting'])" class = '5'>Red</button>
+			<button onclick = "recordData(5,['electric','fairy'])" class = '5'>Yellow</button>
+			<button onclick = "recordData(5,['grass','bug'])" class = '5'>Green</button>
+			<button onclick = "recordData(5,['ice','water'])" class = '5'>Blue</button>
+		</div>
+		<div class = "question">
+			<h1>6</h1>
+			<h2>You heard someone calling you, but there is nothing. What do you think it is?</h2><br />
+			<button onclick = "recordData(6,['steel','fire'])" class = '6'>I probably misheard it</button>
+			<button onclick = "recordData(6,['electric','fairy'])" class = '6'>Someone's prank</button>
+			<button onclick = "recordData(6,['psychic','ghost'])" class = '6'>Uh... a ghost?</button>
+			<button onclick = "recordData(6,['normal','dragon'])" class = '6'>I don't care</button>
+		</div>
+		<div class = "question">
+			<h1>7</h1>
+			<h2>What is your favorite season?</h2><br />
+			<button onclick = "recordData(7,['grass','fairy','bug'])" class = '7'>Spring</button>
+			<button onclick = "recordData(7,['fire','fighting','water'])" class = '7'>Summer</button>
+			<button onclick = "recordData(7,['flying','normal','ground'])" class = '7'>Fall</button>
+			<button onclick = "recordData(7,['ice','ice','dark'])" class = '7'>Winter</button>
+		</div>
+		<div class = "question">
+			<h1>8</h1>
+			<h2>Sun, Moon, or Star</h2><br />
+			<button onclick = "recordData(8,['fire','electric'])" class = '8'>Sun</button>
+			<button onclick = "recordData(8,['dark','flying','ghost'])" class = '8'>Moon</button>
+			<button onclick = "recordData(8,['ice','psychic','fairy'])" class = '8'>Star</button>
+			<button onclick = "recordData(8,['normal','ground','steel'])" class = '8'>I don't care</button>
+		</div>
+		<div class = "question">
+			<h1>9</h1>
+			<h2>You saw a mistirious light in the sky. What is it?</h2><br />
+			<button onclick = "recordData(9,['psychic','poison'])" class = '9'>UFO!!!!</button>
+			<button onclick = "recordData(9,['dark','flying','electric'])" class = '9'>That is just a star</button>
+			<button onclick = "recordData(9,['normal','ice'])" class = '9'>My eyesights are too bad to see that</button>
+			<button onclick = "recordData(9,['steel','ground','rock'])" class = '9'>I don't care</button>
+		</div>
+		<div class = "question">
+			<h1>10</h1>
+			<h2>Tomorrow, you have an important test. </h2><br />
+			<button onclick = "recordData(10,['fire','fighting'])" class = '10'>Study all night</button>
+			<button onclick = "recordData(10,['dark','normal','grass'])" class = '10'>Whatever. I will do fine</button>
+			<button onclick = "recordData(10,['electric','psychic','fairy'])" class = '10'>Oh.. I feel sick</button>
+			<button onclick = "recordData(10,['flying','dragon'])" class = '10'>I had prepared for all year. I am fine</button>
+		</div>
+		<br />
+		<button onclick = "submit();" id = "submitButton">Tell me my pokemon type!</button>
+		<span id= "message"></span>
+	</body>
+</html>

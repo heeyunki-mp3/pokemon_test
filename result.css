@@ -1,0 +1,46 @@
+body
+{
+	background-image: url("resultImg/water.jpg");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	font-family: papyrus;
+	text-align:center;
+}
+h2
+{
+	font-size:40pt;
+	border-right-style: solid;
+	display: inline-block;
+	border-style:solid;
+	border-color:white;
+	color:black;
+	background-color: rgba(255,255,255,.7);
+	padding:2%;
+	margin:3%;
+	position:relative;
+	top:220px;
+}
+			
+a
+{
+	font-family: papyrus;
+	font-size:15pt;
+	padding:1%;
+	left:40px;
+	border-style:outset;
+	border-width:7px;
+	text-decoration: none;
+	background-color:white;
+	color: purple;
+	position:relative;
+	top:270px;
+}
+h3
+{
+	background-color: rgba(255,255,255,.7);
+	padding: 7%;
+	position:relative;
+	font-size:20pt;
+	top:200px;
+}
